@@ -16,12 +16,17 @@ def sent_emotion():
     # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
 
+    # In case of empty input
+    if len(text_to_analyze) == 0:
+        return "Invalid input! Try again."
+
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
 
-    # Check if the result is None, indicating an error or invalid input
-    if response is None:
+    # Check if the result is None or (FOR TASK 7) the dominant emotion is None, indicating an error or invalid input
+    if response is None or response['dominant_emotion'] is None:
         return "Invalid input! Try again."
+
     # Return a formatted string with the emotions and dominant score
     return f'''For the given statement, the system response is 'anger': {response['anger']}, 
         'disgust': {response['disgust']}, 'fear': {response['fear']}, 'joy': {response['joy']} 
