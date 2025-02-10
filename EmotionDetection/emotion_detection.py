@@ -8,6 +8,9 @@ def emotion_detector(text_to_analyse):
 
     response = requests.post(URL, json=input_json, headers=headers)
 
+    if response.status_code == 400:
+        return {"error": "Invalid text! Please try again!"}
+
     # convert json to dict:
     emo_dict = json.loads(response.text)
 
